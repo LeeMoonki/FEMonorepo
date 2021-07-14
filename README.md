@@ -2,7 +2,6 @@
 
 - yarn의 Workspace는 monorepo, 즉 여러개의 패키지를 관리해줍니다.
 - 이 예시에선 create-react-app과 Next.js를 패키지로 구분하고 팀 내에서 공통으로 만들어 사용하는 지역 패키지(local package) `utils`가 있다고 가정합니다.
-- 모든 내용을 설명하진 않고 몇몇 핵심 개념 및 유의사항을 다룹니다.
 - 먼저 환경을 설정하기 위해선 `lerna`와 `yarn workspaces` 설정을 같이 해줍니다.
   - 이렇게 해줌으로써 버전 관리 및 배포는 `lerna`에게 그리고 의존성 관리는 `yarn`에게 위임합니다.
   - root에서 `yarn install`을 하면 root의 `node_modules`에 `packages`의 의존성 패키지들이 설치되어 모여있는 것을 알 수 있습니다.
@@ -21,7 +20,8 @@
     - `yarn workspace <package-name> add react`
   - `yarn add <package-name> --ignore-workspace-root-check` : 만약 각 패키지가 아니라 모든 패키지의 공통 의존성을 추가하고 싶다면 root의 `package.json`에 의존성을 설정해야 합니다. 그럴 땐 `--ignore-workspace-root-check` 옵션으로 의존성을 설치합니다. 예를 들어 다음과 같이 사용합니다. (단축 옵션은 `-W`입니다.)
     - `yarn add typescript -D -W`
-  - 지역 패키지를 사용하고 싶다면 사용하고자하는 패키지의 `package.json`에 직접 지역 패키지를 작성합니다. 예를 들면 다음과 같이 작성합니다.
+    - 공통적으로 사용하는 typescript, jest 등의 환경 설정은 이런 방법으로 설치 및 관리하면 좋습니다.
+  - 지역 패키지를 사용하고 싶다면 사용하고자하는 패키지의 `package.json`에 직접 지역 패키지를 작성합니다. 그 이후에 `yarn install`을 통해 설치합니다. 예를 들면 다음과 같이 작성합니다.
     - `"@service/utils": "1.0.0"`
     - `yarn workspace client add @service/utils`를 사용해 설치하게 되면 다음과 같은 에러가 발생합니다.
       - `error An unexpected error occurred: "https://registry.yarnpkg.com/@service%2futils: Not found".`
